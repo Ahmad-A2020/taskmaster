@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Button detail = (Button) findViewById(R.id.detail);
 
 
+
         profile.setBackgroundResource(R.drawable.profile);
 
         b1.setOnClickListener(new View.OnClickListener(){
