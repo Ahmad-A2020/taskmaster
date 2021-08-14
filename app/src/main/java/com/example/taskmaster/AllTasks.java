@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,18 +24,21 @@ public class AllTasks extends AppCompatActivity {
         taskList= new ArrayList<>();
         taskList.add( new Task("work","meet with the team","new"));
         taskList.add( new Task("house","remove garbage","assigned"));
-        taskList.add( new Task("work","create weeklyplan ","in progress"));
+        taskList.add( new Task("work","create weekly plan ","in progress"));
         taskList.add( new Task("house","wash desh","complete"));
 
         adapter= new TaskAdapter(taskList);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL,
-                false
+                getApplicationContext()
+
         );
+//                this,
+//                LinearLayoutManager.VERTICAL,
+//                false
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
     }
