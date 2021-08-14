@@ -50,7 +50,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
 
         public TaskkHolder(@NonNull  View itemView ) {
 
-
             super(itemView);
             title= itemView.findViewById(R.id.taskTitle);
             body= itemView.findViewById(R.id.body);
