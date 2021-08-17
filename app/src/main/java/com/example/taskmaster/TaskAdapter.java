@@ -1,9 +1,11 @@
 package com.example.taskmaster;
 
+import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
         holder.title.setText(task.getTitle());
         holder.body.setText(task.getBody());
         holder.state.setText(task.getState());
+        holder.id=position;
 
     }
 
@@ -47,6 +50,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
         private TextView title;
         private TextView body;
         private TextView state;
+        private Button detail;
+        private int id;
 
         public TaskkHolder(@NonNull  View itemView ) {
 
@@ -54,8 +59,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
             title= itemView.findViewById(R.id.taskTitle);
             body= itemView.findViewById(R.id.body);
             state= itemView.findViewById(R.id.statue);
+            detail= itemView.findViewById(R.id.Detail);
+
+//            detail.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    showDetail( id);
+//
+//                }
+//            });
         }
+
+
+
     }
+
+
 
 
 }
