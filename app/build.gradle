@@ -46,7 +46,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
 
 
     // room dependencies
@@ -69,5 +70,28 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:2.4.0-alpha04"
+
+    // ------amplify-----
+
+    implementation 'com.amplifyframework:aws-api:1.24.0'
+    implementation 'com.amplifyframework:aws-datastore:1.24.0'
+
+    // ------------for espresso test-------
+//    testImplementation 'junit:junit:4.12'
+//
+//    // Android runner and rules support
+//    androidtestImplementation 'com.android.support.test:runner:0.5'
+//    androidtestImplementation 'com.android.support.test:rules:0.5'
+//
+//    // Espresso support
+//    androidtestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+//
+//    // add this for intent mocking support
+//    androidtestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
+//
+//    // add this for webview testing support
+//    androidtestImplementation 'com.android.support.test.espresso:espresso-web:2.2.2'
 
 }

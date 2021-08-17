@@ -6,8 +6,10 @@ import androidx.room.Room;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +27,14 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        // create spinner
+        String [] stareList= {"new","assigned","in progress","complete"};
+        Spinner spinner= (Spinner)  findViewById(R.id.Spinner01);
+        ArrayAdapter<String > adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,stareList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-
+        // data base
         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,TASK_HOLDER)
                 .allowMainThreadQueries().build();
         taskDao= db.taskDao();
@@ -47,6 +55,7 @@ public class AddTask extends AppCompatActivity {
 
                 String title = inputtitle.getText().toString();
                 String body = inputbody.getText().toString();
+                String state = spinner.getSelectedItem().toString();
 
                 // save in the Database
                 Task task = new Task(title,body,"completed");
