@@ -17,8 +17,10 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
         TextView user= findViewById(R.id.showuser);
         user.setText(preferences.getString("username","please add user name from setting page"));
+        // to show user teamName
+        TextView team = findViewById(R.id.showteam);
+        team.setText(( preferences.getString("teamName","please add team name from setting page")));
     }
 
     @Override
@@ -53,13 +58,25 @@ public class MainActivity extends AppCompatActivity {
             Log.e("plugin", "Could not initialize Amplify", e);
         }
 
+        // create teams and save it at dynamoDB ---- generate one time
+
+//        Team team = Team.builder().name("TeamA").build();
+//        Team team = Team.builder().name("TeamB").build();
+//        Team team = Team.builder().name("TeamC").build();
+//
+//        Amplify.API.mutate(ModelMutation.create(team),
+//        success -> Log.i("teamSave", "Saved Team to api : " + success.getData()),
+//        error -> Log.e("teamSave", "Could not save Team to API/dynamodb", error));
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         b1=(Button) findViewById(R.id.button);
         b2=(Button) findViewById(R.id.button2);
         ImageView profile = (ImageView) findViewById(R.id.profile);
         Button setting = (Button) findViewById(R.id.setting);
-        Button detail = (Button) findViewById(R.id.detail);
+//        Button detail = (Button) findViewById(R.id.detail);
 
 
 
@@ -91,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,TaskDetail.class);
-                startActivity(intent);
-
-            }
-        });
+//        detail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this,TaskDetail.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
 //        RecyclerView recyclerView = findViewById(R.id.list);
 //        taskList= new ArrayList<>();
