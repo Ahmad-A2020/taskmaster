@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,9 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import com.amplifyframework.AmplifyException;
@@ -26,12 +30,15 @@ public class AllTasks extends AppCompatActivity {
      private TaskAdapter adapter;
     private  AppDatabase db;
     private TaskDao taskDao;
+    private Handler handler;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
+
+
 
         getDataFromApi();
 
@@ -57,6 +64,17 @@ public class AllTasks extends AppCompatActivity {
 //        taskList2.add( new Task("house","remove garbage","assigned"));
 //        taskList2.add( new Task("work","create weekly plan ","in progress"));
 //        taskList2.add( new Task("house","wash desh","complete"));
+
+        handler= new Handler(Looper.getMainLooper(),
+
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        taskListSetChanged();
+                        return false;
+                    }
+                }
+        );
 
         adapter= new TaskAdapter(taskList, new TaskAdapter.onTaskClickListener() {
             @Override
@@ -101,6 +119,7 @@ public class AllTasks extends AppCompatActivity {
                         Log.i("bring","itemlist:"+taskList.get(i).getTitle());
                         i++;
                     }
+                    handler.sendEmptyMessage(1);
 
 
 

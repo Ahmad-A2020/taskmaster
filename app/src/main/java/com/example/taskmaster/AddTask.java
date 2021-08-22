@@ -1,7 +1,6 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +15,10 @@ import android.widget.Toast;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
 public class AddTask extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class AddTask extends AppCompatActivity {
 
     private TaskDao taskDao;
     private AppDatabase db;
+    private Team teamData= null ;
 
     public static final String TASK_HOLDER= "task_holder";
 
@@ -34,29 +36,36 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        // create spinner
+        // amplify configuration -- addplugin
+
+//        try {
+//            Amplify.addPlugin(new AWSDataStorePlugin());
+//            Amplify.addPlugin(new AWSApiPlugin());
+//            Amplify.configure(getApplicationContext());
+//
+//            Log.i("plugin", "Initialized Amplify");
+//        } catch (AmplifyException e) {
+//            Log.e("plugin", "Could not initialize Amplify", e);
+//        }
+        // create spinner for state
         String [] stareList= {"new","assigned","in progress","complete"};
         Spinner spinner= (Spinner)  findViewById(R.id.Spinner01);
         ArrayAdapter<String > adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,stareList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        // amplify
+        // create spinner for team
+        String [] teamsList= {"TeamA","TeamB","TeamC"};
+        Spinner spinnerTeam= (Spinner)  findViewById(R.id.spinnerSetting);
+        ArrayAdapter<String > adapterTeams= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,teamsList);
+        adapterTeams.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTeam.setAdapter(adapterTeams);
 
-        try {
-            Amplify.addPlugin(new AWSDataStorePlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("plugin", "Initialized Amplify");
-        } catch (AmplifyException e) {
-            Log.e("plugin", "Could not initialize Amplify", e);
-        }
 
         // data base
-        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,TASK_HOLDER)
-                .allowMainThreadQueries().build();
-        taskDao= db.taskDao();
+//        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,TASK_HOLDER)
+//                .allowMainThreadQueries().build();
+//        taskDao= db.taskDao();
 
         // click Listener
 
@@ -75,6 +84,7 @@ public class AddTask extends AppCompatActivity {
                 String titleContent = inputtitle.getText().toString();
                 String bodyContent = inputbody.getText().toString();
                 String stateContent = spinner.getSelectedItem().toString();
+                String teamContent= spinnerTeam.getSelectedItem().toString();
 
                 // save in the Database ---- Room-----
 //                Task task = new Task(title,body,"completed");
@@ -85,12 +95,19 @@ public class AddTask extends AppCompatActivity {
 //                label.setText("Submited!");
 //                Log.i(log_tag,"summited Successfully");
 
+
+                // --find the team from the dynamoDB--
+                Log.i("teamspinner",teamContent);
+
+                getTeamDetailFromAPIByName("TeamA");
+
                 Todo item= Todo.builder()
-                        .title(titleContent).body(bodyContent).state(stateContent).build();
+                        .title(titleContent).body(bodyContent).state(stateContent).team(teamData).build();
+                // -- save in the dynamoDB
 
                 Amplify.API.mutate(ModelMutation.create(item)
                         ,success -> Log.i("submit", "saved item sucessfully")
-                        , error -> Log.i("submit", "error in the saving to server",error)
+                        , error -> Log.e("submit", "error in the saving to server",error)
                 );
                  Toast.makeText(AddTask.this, "Task Added",Toast.LENGTH_SHORT).show();
 
@@ -100,7 +117,23 @@ public class AddTask extends AppCompatActivity {
         });
     }
 
+    private  void  getTeamDetailFromAPIByName(String teamNameData) {
+        Amplify.API.query(
+                ModelQuery.list(Team.class, Team.NAME.contains(teamNameData)),
+                response -> {
+                    for (Team teamDetail : response.getData()) {
+                        Log.i("teamDetail", teamDetail.toString());
+                        teamData = teamDetail;
+                    }
+                },
+                error -> Log.e("teamDetail", "Query failure", error)
+        );
+    }
+
     private void configurateAmplify(){
 
+
     }
+
+
 }
