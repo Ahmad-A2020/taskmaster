@@ -13,6 +13,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Todo;
+
 public class AddTask extends AppCompatActivity {
 
     private static String log_tag="oh";
@@ -34,6 +41,18 @@ public class AddTask extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        // amplify
+
+        try {
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("plugin", "Initialized Amplify");
+        } catch (AmplifyException e) {
+            Log.e("plugin", "Could not initialize Amplify", e);
+        }
+
         // data base
         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,TASK_HOLDER)
                 .allowMainThreadQueries().build();
@@ -53,21 +72,35 @@ public class AddTask extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                String title = inputtitle.getText().toString();
-                String body = inputbody.getText().toString();
-                String state = spinner.getSelectedItem().toString();
+                String titleContent = inputtitle.getText().toString();
+                String bodyContent = inputbody.getText().toString();
+                String stateContent = spinner.getSelectedItem().toString();
 
-                // save in the Database
-                Task task = new Task(title,body,"completed");
-                taskDao.insertOne(task);
+                // save in the Database ---- Room-----
+//                Task task = new Task(title,body,"completed");
+//                taskDao.insertOne(task);
+//
+//                Toast.makeText(AddTask.this, "Task Added",Toast.LENGTH_SHORT).show();
+//
+//                label.setText("Submited!");
+//                Log.i(log_tag,"summited Successfully");
 
-                Toast.makeText(AddTask.this, "Task Added",Toast.LENGTH_SHORT).show();
+                Todo item= Todo.builder()
+                        .title(titleContent).body(bodyContent).state(stateContent).build();
 
-                label.setText("Submited!");
-                Log.i(log_tag,"summited Successfully");
+                Amplify.API.mutate(ModelMutation.create(item)
+                        ,success -> Log.i("submit", "saved item sucessfully")
+                        , error -> Log.i("submit", "error in the saving to server",error)
+                );
+                 Toast.makeText(AddTask.this, "Task Added",Toast.LENGTH_SHORT).show();
+
 
 
             }
         });
+    }
+
+    private void configurateAmplify(){
+
     }
 }
