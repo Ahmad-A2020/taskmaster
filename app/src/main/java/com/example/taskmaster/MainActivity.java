@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button b1,b2;
     private TaskAdapter adapter;
     private List<Task> taskList;
+    private String user;
 
 
     @Override
@@ -40,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
         // to show user teamName
         TextView team = findViewById(R.id.showteam);
         team.setText(( preferences.getString("teamName","please add team name from setting page")));
+
+        //  to show userName
+        if (Amplify.Auth.getCurrentUser() != null){
+            currentUserName();
+            TextView userHolder = findViewById(R.id.userPlace);
+            userHolder.setText(Amplify.Auth.getCurrentUser().getUsername() );
+        }
+
+
+
     }
 
     @Override
@@ -108,6 +119,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // set logout button
+
+        Button signOutbutt= findViewById(R.id.signout);
+        signOutbutt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signout();
+            }
+        });
+
+
+
 //        detail.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -150,6 +173,22 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent);
 //
 //        }
+    void currentUserName(){
+        user= Amplify.Auth.getCurrentUser().getUsername();
+        Log.i("userName","CurrentUser: "+user);
+    }
+    private void signout(){
+        Amplify.Auth.signOut(
+                () ->{
+                    Intent ToLogIn = new Intent(MainActivity.this,SignInActivity.class);
+                    startActivity(ToLogIn);
+                }
+                ,
+                error ->{
+                    Log.e("signout", "error in logging out: "+ error);
+                }
+        );
+    }
 
 
 }
