@@ -19,6 +19,18 @@
 in this lab we created a recycle view for diplay a list of data at the all list page.
  - ![All Tasks](tasksList.PNG)
 
-  ## Lab: 29 - Room
+## Lab: 29 - Room
  in this lab we user the room, which is an ORM (object relational mapper) for SQLite database in Android. to save data (task) at the database, and then invoke all the stored data (tasks) at the all tasks layout.
 
+## Lab: 31 - Espresso and Polish
+in this lab, we create a test function for the the user interface using of Espresso framework.
+
+## Lab: 32 - Amplify and DynamoDB:
+ in this lab, we created cloud storage, on which each time the data saved it, hit the aws server , and store at the database.Also, the at the all list activity will fetch all the data (tasks) form the server and list them using recycle view.
+
+## Lab: 33 - Related Data:
+in this lab, we created a new model at the graphql to assign the task to the team. At the biggining we hit the server (database) and save three teams for one time (teamA,B,C). After that we added a spinner at the add task activity to assign the task at one of the three teams.
+
+
+## Lab: 36 - Cognito:
+in this lab we added an authontication system to our android application using of amplify auth. the user can create a user name and verify it using email. For this purpose signUp, Login, verification activities were created. Also, a new features added on the application such as showing the user name.
