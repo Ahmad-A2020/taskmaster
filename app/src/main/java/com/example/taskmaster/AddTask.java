@@ -138,7 +138,7 @@ public class AddTask extends AppCompatActivity {
 
 
                 Todo item= Todo.builder()
-                        .title(titleContent).body(bodyContent).state(stateContent).team(teamData).build();
+                        .title(titleContent).body(bodyContent).state(stateContent).team(teamData).fileKey(key).build();
                 // -- save in the dynamoDB
 
                 Amplify.API.mutate(ModelMutation.create(item)
@@ -187,7 +187,7 @@ public class AddTask extends AppCompatActivity {
         }
          Amplify.Storage.uploadFile(
 
-                 "key",
+                 key= new Date().toString()+".jpg",
                  uploadedFile,
                  sucess ->{
                      Log.i(TAG,"the file saved to s3 successfully");

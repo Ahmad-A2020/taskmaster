@@ -17,6 +17,7 @@ query SyncTodos(
       body
       state
       taskId
+      fileKey
       _version
       _deleted
       _lastChangedAt
@@ -34,6 +35,7 @@ query GetTodo($id: ID!) {
     body
     state
     taskId
+    fileKey
     team {
       id
       name
@@ -62,6 +64,7 @@ query ListTodos(
       body
       state
       taskId
+      fileKey
       _version
       _deleted
       _lastChangedAt

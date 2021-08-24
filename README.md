@@ -34,3 +34,6 @@ in this lab, we created a new model at the graphql to assign the task to the tea
 
 ## Lab: 36 - Cognito:
 in this lab we added an authontication system to our android application using of amplify auth. the user can create a user name and verify it using email. For this purpose signUp, Login, verification activities were created. Also, a new features added on the application such as showing the user name.
+
+## Lab: 37 - S3
+In this lab we used another servise offer by amazon which S3 storage so that we can upload files and used it later (download )
