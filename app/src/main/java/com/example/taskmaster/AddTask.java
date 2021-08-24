@@ -30,7 +30,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddTask extends AppCompatActivity {
 
@@ -42,6 +44,7 @@ public class AddTask extends AppCompatActivity {
     private AppDatabase db;
     private Team teamData= null ;
     private String key;
+    private List<Team> teams= new ArrayList<>();
 
     public static final String TASK_HOLDER= "task_holder";
 
@@ -50,6 +53,10 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        // create teams
+//        teams = new ArrayList<>();
+
         // amplify configuration -- addplugin
 
 //        try {
@@ -123,7 +130,12 @@ public class AddTask extends AppCompatActivity {
                 // --find the team from the dynamoDB--
                 Log.i("teamspinner",teamContent);
 
-                getTeamDetailFromAPIByName("TeamA");
+                getTeamDetailFromAPIByName(teamContent);
+
+                teamData = Team.builder().name(teamContent).build();
+                Log.i("teamName",teamData.getName());
+                Log.i("teamsData",String.valueOf(teams.size()));
+
 
                 Todo item= Todo.builder()
                         .title(titleContent).body(bodyContent).state(stateContent).team(teamData).build();
@@ -153,6 +165,7 @@ public class AddTask extends AppCompatActivity {
                 error -> Log.e("teamDetail", "Query failure", error)
         );
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
