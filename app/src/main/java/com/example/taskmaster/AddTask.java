@@ -187,7 +187,7 @@ public class AddTask extends AppCompatActivity {
         }
          Amplify.Storage.uploadFile(
 
-                 key= new Date().toString()+"file",
+                 key= new Date().toString()+".jpg",
                  uploadedFile,
                  sucess ->{
                      Log.i(TAG,"the file saved to s3 successfully");

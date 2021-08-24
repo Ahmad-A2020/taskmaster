@@ -84,8 +84,9 @@ public class AllTasks extends AppCompatActivity {
             public void onItemClick(int position) {
                 Intent detailsIntent = new Intent(AllTasks.this,TaskDetail.class);
                 detailsIntent.putExtra("taskTitle",taskList.get(position).getTitle());
-                detailsIntent.putExtra("taskDescription",taskList.get(position).getTitle());
-                detailsIntent.putExtra("taskstate",taskList.get(position).getTitle());
+                detailsIntent.putExtra("taskDescription",taskList.get(position).getBody());
+                detailsIntent.putExtra("taskstate",taskList.get(position).getState());
+                detailsIntent.putExtra("linkFile",taskList.get(position).getFileKey());
                 startActivity(detailsIntent);
 
             }
