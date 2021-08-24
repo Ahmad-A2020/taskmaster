@@ -18,9 +18,11 @@ import android.widget.TextView;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,19 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        configureAmplify();
 
         // amplify
 
-        try {
-            Amplify.addPlugin(new AWSDataStorePlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("plugin", "Initialized Amplify");
-        } catch (AmplifyException e) {
-            Log.e("plugin", "Could not initialize Amplify", e);
-        }
+//        try {
+//            Amplify.addPlugin(new AWSDataStorePlugin());
+//            Amplify.addPlugin(new AWSApiPlugin());
+//            Amplify.configure(getApplicationContext());
+//
+//            Log.i("plugin", "Initialized Amplify");
+//        } catch (AmplifyException e) {
+//            Log.e("plugin", "Could not initialize Amplify", e);
+//        }
 
         // create teams and save it at dynamoDB ---- generate one time
 
@@ -188,6 +190,21 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("signout", "error in logging out: "+ error);
                 }
         );
+    }
+
+    private void configureAmplify() {
+        // configure Amplify plugins
+        try {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("TAG", "Successfully initialized Amplify plugins");
+        } catch (AmplifyException exception) {
+            Log.e("TAG", "Failed to initialize Amplify plugins => " + exception.toString());
+        }
     }
 
 

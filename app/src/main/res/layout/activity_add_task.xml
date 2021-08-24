@@ -22,7 +22,7 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="88dp"
-        android:text="state"
+        android:text="Team"
         app:layout_constraintEnd_toStartOf="@+id/Spinner01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -32,7 +32,7 @@
         android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="49dp"
         app:layout_constraintBottom_toTopOf="@+id/editText3"
         app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="92dp"
         android:text="Title "
         app:layout_constraintEnd_toStartOf="@+id/editText"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="153dp"
         android:layout_marginEnd="170dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="164dp"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,5 +115,14 @@
         app:layout_constraintEnd_toStartOf="@+id/Spinner01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/uploade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Uploade"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/button3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
