@@ -1,8 +1,13 @@
 package com.example.taskmaster;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,13 +26,22 @@ import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Date;
+
 public class AddTask extends AppCompatActivity {
 
+    private static final int CODE_REQUEST =55 ;
+    private static final String TAG = "upload";
     private static String log_tag="oh";
 
     private TaskDao taskDao;
     private AppDatabase db;
     private Team teamData= null ;
+    private String key;
 
     public static final String TASK_HOLDER= "task_holder";
 
@@ -76,10 +90,20 @@ public class AddTask extends AppCompatActivity {
         EditText inputtitle= findViewById(R.id.editText);
         EditText inputbody= findViewById(R.id.editText3);
 
+        Button uploadButt = findViewById(R.id.uploade);
+
+        // add listener for the upload file button
+        uploadButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFileFromDevice();
+
+            }
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 String titleContent = inputtitle.getText().toString();
                 String bodyContent = inputbody.getText().toString();
@@ -130,10 +154,49 @@ public class AddTask extends AppCompatActivity {
         );
     }
 
-    private void configurateAmplify(){
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode== CODE_REQUEST && resultCode== RESULT_OK ){
+            File uploadedFile = new File(getApplicationContext().getFilesDir(),"file");
+            Log.i(TAG,"create stream");
+//            key = new Date().toString()+" File";
+        try {
+            InputStream stream = getContentResolver().openInputStream(data.getData());
+            FileUtils.copy(stream, new FileOutputStream(uploadedFile));
+
+
+        }catch (Exception e){
+            Log.e(TAG,"error in upolad the File "+ e.toString());
+
+        }
+         Amplify.Storage.uploadFile(
+
+                 "key",
+                 uploadedFile,
+                 sucess ->{
+                     Log.i(TAG,"the file saved to s3 successfully");
+                 },
+                 error ->{
+                     Log.e(TAG," error in store data at S3 "+ error);
+                 }
+         );
+
+        }
 
     }
+
+    private void getFileFromDevice(){
+
+       Intent selectFile= new Intent(Intent.ACTION_GET_CONTENT);
+       selectFile.setType("*/*");
+       selectFile= Intent.createChooser(selectFile,"select File");
+
+       startActivityForResult(selectFile,CODE_REQUEST);
+
+   }
 
 
 }
