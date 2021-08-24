@@ -9,6 +9,7 @@ mutation CreateTodo(
     body
     state
     taskId
+    fileKey
     team {
       id
       name
@@ -35,6 +36,7 @@ mutation UpdateTodo(
     body
     state
     taskId
+    fileKey
     team {
       id
       name
@@ -61,6 +63,7 @@ mutation DeleteTodo(
     body
     state
     taskId
+    fileKey
     team {
       id
       name

@@ -26,11 +26,13 @@ public final class Todo implements Model {
   public static final QueryField TITLE = field("Todo", "title");
   public static final QueryField BODY = field("Todo", "body");
   public static final QueryField STATE = field("Todo", "state");
+  public static final QueryField FILE_KEY = field("Todo", "fileKey");
   public static final QueryField TEAM = field("Todo", "taskId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
+  private final @ModelField(targetType="String") String fileKey;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "taskId", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -50,6 +52,10 @@ public final class Todo implements Model {
       return state;
   }
   
+  public String getFileKey() {
+      return fileKey;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -62,11 +68,12 @@ public final class Todo implements Model {
       return updatedAt;
   }
   
-  private Todo(String id, String title, String body, String state, Team team) {
+  private Todo(String id, String title, String body, String state, String fileKey, Team team) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.fileKey = fileKey;
     this.team = team;
   }
   
@@ -82,6 +89,7 @@ public final class Todo implements Model {
               ObjectsCompat.equals(getTitle(), todo.getTitle()) &&
               ObjectsCompat.equals(getBody(), todo.getBody()) &&
               ObjectsCompat.equals(getState(), todo.getState()) &&
+              ObjectsCompat.equals(getFileKey(), todo.getFileKey()) &&
               ObjectsCompat.equals(getTeam(), todo.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
@@ -95,6 +103,7 @@ public final class Todo implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getFileKey())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -110,6 +119,7 @@ public final class Todo implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("fileKey=" + String.valueOf(getFileKey()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -145,6 +155,7 @@ public final class Todo implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -154,6 +165,7 @@ public final class Todo implements Model {
       title,
       body,
       state,
+      fileKey,
       team);
   }
   public interface TitleStep {
@@ -166,6 +178,7 @@ public final class Todo implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep body(String body);
     BuildStep state(String state);
+    BuildStep fileKey(String fileKey);
     BuildStep team(Team team);
   }
   
@@ -175,6 +188,7 @@ public final class Todo implements Model {
     private String title;
     private String body;
     private String state;
+    private String fileKey;
     private Team team;
     @Override
      public Todo build() {
@@ -185,6 +199,7 @@ public final class Todo implements Model {
           title,
           body,
           state,
+          fileKey,
           team);
     }
     
@@ -204,6 +219,12 @@ public final class Todo implements Model {
     @Override
      public BuildStep state(String state) {
         this.state = state;
+        return this;
+    }
+    
+    @Override
+     public BuildStep fileKey(String fileKey) {
+        this.fileKey = fileKey;
         return this;
     }
     
@@ -236,11 +257,12 @@ public final class Todo implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state, Team team) {
+    private CopyOfBuilder(String id, String title, String body, String state, String fileKey, Team team) {
       super.id(id);
       super.title(title)
         .body(body)
         .state(state)
+        .fileKey(fileKey)
         .team(team);
     }
     
@@ -257,6 +279,11 @@ public final class Todo implements Model {
     @Override
      public CopyOfBuilder state(String state) {
       return (CopyOfBuilder) super.state(state);
+    }
+    
+    @Override
+     public CopyOfBuilder fileKey(String fileKey) {
+      return (CopyOfBuilder) super.fileKey(fileKey);
     }
     
     @Override

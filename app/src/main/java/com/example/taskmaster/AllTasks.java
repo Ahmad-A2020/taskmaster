@@ -21,6 +21,8 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Todo;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class AllTasks extends AppCompatActivity {
     private  AppDatabase db;
     private TaskDao taskDao;
     private Handler handler;
+    private URL fileUrl;
 
 
     @Override
@@ -131,7 +134,32 @@ public class AllTasks extends AppCompatActivity {
         );
 
     }
+    private void getfileUrl(String key){
+        Amplify.Storage.getUrl(
+                key,
+                result ->{
 
+
+                Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
+                fileUrl= result.getUrl();
+                } ,
+                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+        );
+
+    }
+
+    private void downloadFile(String Key){
+        Amplify.Storage.downloadFile(
+                Key,
+                new File(getApplicationContext().getFilesDir() + "/download.jpg"),
+                result ->{
+
+                Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
+                } ,
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
+
+    }
     private void taskListSetChanged(){
         adapter.notifyDataSetChanged();
     }

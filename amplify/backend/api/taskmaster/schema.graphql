@@ -4,6 +4,7 @@ type Todo @model @key(name:"taskItem", fields: ["taskId"]) {
   body: String
   state: String
   taskId:ID!
+  fileKey:String
   team: Team @connection(fields: ["taskId"])
 }
 

@@ -29,6 +29,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
 
     public TaskAdapter(List<Todo> taskList, onTaskClickListener listener) {
         this.tasksList=taskList;
+        this.listener=listener;
 
     }
 
@@ -62,6 +63,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
         private TextView title;
         private TextView body;
         private TextView state;
+        private TextView link;
         private Button delete;
         private int id;
         private onTaskClickListener listener;
@@ -87,6 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
             body= itemView.findViewById(R.id.body);
             state= itemView.findViewById(R.id.statue);
             delete= itemView.findViewById(R.id.Detail);
+
 
             delete.setOnClickListener(deleteListener);
             itemView.setOnClickListener(cardListener);
