@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+//import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -35,24 +35,18 @@ public class SignUpActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.passwordEdit);
         EditText userName = findViewById(R.id.username);
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        signup.setOnClickListener(v -> {
 
-                Log.i(TAG,userName.getText().toString());
-                Log.i(TAG,email.getText().toString());
-                Log.i(TAG,password.getText().toString());
+            Log.i(TAG,userName.getText().toString());
+            Log.i(TAG,email.getText().toString());
+            Log.i(TAG,password.getText().toString());
 
-                signUp(userName.getText().toString(),email.getText().toString(),password.getText().toString());
-            }
+            signUp(userName.getText().toString(),email.getText().toString(),password.getText().toString());
         });
 
-        SignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInPage= new Intent(SignUpActivity.this, SignInActivity.class);
-                startActivity(signInPage);
-            }
+        SignIn.setOnClickListener(v -> {
+            Intent signInPage= new Intent(SignUpActivity.this, SignInActivity.class);
+            startActivity(signInPage);
         });
 
     }
@@ -72,9 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(goToVerification);
 
                 },
-                error ->{
-                    Log.e(TAG, "error in DignUp"+error.toString());
-                }
+                error -> Log.e(TAG, "error in DignUp"+error.toString())
         );
 
 

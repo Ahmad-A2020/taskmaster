@@ -13,7 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="368dp"
-        android:text="Team Name"
+        android:text="@string/team_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/username"
         app:layout_constraintHorizontal_bias="0.214"
@@ -26,7 +26,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="452dp"
-        android:text="User Name: "
+        android:text="@string/user_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/username"
         app:layout_constraintStart_toStartOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_marginStart="146dp"
         android:layout_marginTop="93dp"
         android:layout_marginEnd="221dp"
-        android:text="Setting"
+        android:text="@string/setting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +54,13 @@
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+        />
 
     <EditText
+        tools:ignore="LabelFor"
+
+        android:autofillHints="username"
         android:id="@+id/username"
         android:layout_width="173dp"
         android:layout_height="36dp"
@@ -66,7 +69,11 @@
         android:layout_marginBottom="452dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6" />
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        android:inputType="textEmailAddress"
+
+
+        />
 
 
     <Button
@@ -76,7 +83,7 @@
         android:layout_marginStart="160dp"
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="292dp"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

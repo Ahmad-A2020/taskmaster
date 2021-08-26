@@ -21,7 +21,7 @@ public class TaskDetail extends AppCompatActivity {
         setContentView(R.layout.activity_task_detail);
 
         // download image
-        ImageView image= (ImageView) findViewById(R.id.imageView4);
+        ImageView image= findViewById(R.id.imageView4);
         if (getIntent().getStringExtra("linkFile") != null){
 
             downloadFile(getIntent().getStringExtra("linkFile"),image);

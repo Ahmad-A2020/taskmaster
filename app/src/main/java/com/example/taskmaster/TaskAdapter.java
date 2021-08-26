@@ -1,8 +1,6 @@
 package com.example.taskmaster;
 
-import android.content.Intent;
-import android.content.pm.LabeledIntent;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +16,8 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
 
-    private List<Todo> tasksList;
-    private onTaskClickListener listener;
+    private final List<Todo> tasksList;
+    private final onTaskClickListener listener;
 
     public interface onTaskClickListener{
 
@@ -49,7 +47,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
 
         holder.body.setText(task.getBody());
         holder.state.setText(task.getState());
-        holder.id=position;
 
     }
 
@@ -60,38 +57,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskkHolder> {
 
     static class TaskkHolder extends RecyclerView.ViewHolder{
 
-        private TextView title;
-        private TextView body;
-        private TextView state;
-        private TextView link;
-        private Button delete;
-        private int id;
-        private onTaskClickListener listener;
+        private final TextView title;
+        private final TextView body;
+        private final TextView state;
 
-        private final View.OnClickListener cardListener= new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(getLayoutPosition());
-            }
-        };
-        private final View.OnClickListener deleteListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onDeleteItem(getAdapterPosition());
-            }
-        };
         public TaskkHolder(@NonNull  View itemView, onTaskClickListener listener ) {
 
             super(itemView);
 
-            this.listener=listener;
             title= itemView.findViewById(R.id.taskTitle);
             body= itemView.findViewById(R.id.body);
             state= itemView.findViewById(R.id.statue);
-            delete= itemView.findViewById(R.id.Detail);
+            Button delete = itemView.findViewById(R.id.Detail);
 
 
+            View.OnClickListener deleteListener = view -> listener.onDeleteItem(getAdapterPosition());
             delete.setOnClickListener(deleteListener);
+            View.OnClickListener cardListener = v -> listener.onItemClick(getLayoutPosition());
             itemView.setOnClickListener(cardListener);
 
 //            detail.setOnClickListener(new View.OnClickListener() {

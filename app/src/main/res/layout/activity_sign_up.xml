@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="210dp"
         android:layout_marginEnd="28dp"
-        android:text="User Name: "
+        android:text="@string/user_name"
         app:layout_constraintEnd_toStartOf="@+id/passwordEdit"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,11 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="39dp"
-        android:text="Password"
+        android:text="@string/password"
         app:layout_constraintEnd_toStartOf="@+id/passwordEdit"
         app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <EditText
+        android:autofillHints="textPassword"
+        tools:ignore="LabelFor"
+
         android:id="@+id/passwordEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,11 +45,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="77dp"
         android:layout_marginBottom="4dp"
-        android:text="Email"
+        android:text="@string/email"
         app:layout_constraintBottom_toBottomOf="@+id/emailEdit"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        tools:ignore="LabelFor"
+        android:autofillHints="textEmailAddress"
+
         android:id="@+id/emailEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +64,9 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordEdit" />
 
     <EditText
+        tools:ignore="LabelFor"
+        android:autofillHints="username"
+
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="49dp"
-        android:text="SignUp"
+        android:text="@string/signup"
         app:layout_constraintStart_toStartOf="@+id/emailEdit"
         app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
 
@@ -83,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="6dp"
-        android:text="SignIn"
+        android:text="@string/signin"
         app:layout_constraintEnd_toEndOf="@+id/signup"
         app:layout_constraintTop_toBottomOf="@+id/signup" />
 </androidx.constraintlayout.widget.ConstraintLayout>

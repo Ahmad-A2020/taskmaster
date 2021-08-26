@@ -1,37 +1,34 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+//import androidx.recyclerview.widget.DefaultItemAnimator;
+//import androidx.recyclerview.widget.LinearLayoutManager;
+//import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
+//import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
-import com.amplifyframework.api.graphql.model.ModelMutation;
+//import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
-import com.amplifyframework.datastore.generated.model.Team;
+//import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Button b1,b2;
-    private TaskAdapter adapter;
-    private List<Task> taskList;
-    private String user;
 
 
     @Override
@@ -85,51 +82,37 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        b1=(Button) findViewById(R.id.button);
-        b2=(Button) findViewById(R.id.button2);
-        ImageView profile = (ImageView) findViewById(R.id.profile);
-        Button setting = (Button) findViewById(R.id.setting);
+        b1= findViewById(R.id.button);
+        b2= findViewById(R.id.button2);
+        ImageView profile = findViewById(R.id.profile);
+        Button setting = findViewById(R.id.setting);
 //        Button detail = (Button) findViewById(R.id.detail);
 
 
 
         profile.setBackgroundResource(R.drawable.profile);
 
-        b1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
+        b1.setOnClickListener(v -> {
 
-                Intent intent = new Intent (MainActivity.this,AddTask.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent (MainActivity.this,AddTask.class);
+            startActivity(intent);
         });
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,AllTasks.class);
-                startActivity(intent);
+        b2.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,AllTasks.class);
+            startActivity(intent);
 
-            }
         });
 
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Settings.class);
-                startActivity(intent);
-            }
+        setting.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,Settings.class);
+            startActivity(intent);
         });
 
         // set logout button
 
         Button signOutbutt= findViewById(R.id.signout);
-        signOutbutt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signout();
-            }
-        });
+        signOutbutt.setOnClickListener(v -> signout());
 
 
 
@@ -176,8 +159,10 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
     void currentUserName(){
-        user= Amplify.Auth.getCurrentUser().getUsername();
-        Log.i("userName","CurrentUser: "+user);
+        //    private TaskAdapter adapter;
+        //    private List<Task> taskList;
+        String user = Amplify.Auth.getCurrentUser().getUsername();
+        Log.i("userName","CurrentUser: "+ user);
     }
     private void signout(){
         Amplify.Auth.signOut(
@@ -186,9 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(ToLogIn);
                 }
                 ,
-                error ->{
-                    Log.e("signout", "error in logging out: "+ error);
-                }
+                error -> Log.e("signout", "error in logging out: "+ error)
         );
     }
 

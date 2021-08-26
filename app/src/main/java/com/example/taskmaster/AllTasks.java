@@ -1,39 +1,38 @@
 package com.example.taskmaster;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+//import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
+//import android.os.Message;
 import android.util.Log;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
+//import com.amplifyframework.AmplifyException;
+//import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.AWSDataStorePlugin;
+//import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Todo;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
+//import java.io.File;
+//import java.net.URL;
+//import java.util.ArrayList;
 import java.util.List;
 
 public class AllTasks extends AppCompatActivity {
 
-    private List<Todo> taskList= TasksDatamanager.getInstance().getTasks();
+    private final List<Todo> taskList= TasksDatamanager.getInstance().getTasks();
      private TaskAdapter adapter;
-    private  AppDatabase db;
-    private TaskDao taskDao;
+//    private  AppDatabase db;
+//    private TaskDao taskDao;
     private Handler handler;
-    private URL fileUrl;
 
 
     @Override
@@ -70,12 +69,9 @@ public class AllTasks extends AppCompatActivity {
 
         handler= new Handler(Looper.getMainLooper(),
 
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        taskListSetChanged();
-                        return false;
-                    }
+                msg -> {
+                    taskListSetChanged();
+                    return false;
                 }
         );
 
@@ -112,7 +108,6 @@ public class AllTasks extends AppCompatActivity {
 
     }
     private void getDataFromApi(){
-        List<Todo> data= new ArrayList<>();
         Amplify.API.query(ModelQuery.list(Todo.class),
                 response -> {
                     int i=0;
@@ -135,32 +130,29 @@ public class AllTasks extends AppCompatActivity {
         );
 
     }
-    private void getfileUrl(String key){
-        Amplify.Storage.getUrl(
-                key,
-                result ->{
+//    private void getfileUrl(String key){
+//        Amplify.Storage.getUrl(
+//                key,
+//                result ->{
+//
+//
+//                Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
+//                fileUrl= result.getUrl();
+//                } ,
+//                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+//        );
+//
+//    }
 
-
-                Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
-                fileUrl= result.getUrl();
-                } ,
-                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
-        );
-
-    }
-
-    private void downloadFile(String Key){
-        Amplify.Storage.downloadFile(
-                Key,
-                new File(getApplicationContext().getFilesDir() + "/download.jpg"),
-                result ->{
-
-                Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
-                } ,
-                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
-        );
-
-    }
+//    private void downloadFile(String Key){
+//        Amplify.Storage.downloadFile(
+//                Key,
+//                new File(getApplicationContext().getFilesDir() + "/download.jpg"),
+//                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+//                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+//        );
+//
+//    }
     private void taskListSetChanged(){
         adapter.notifyDataSetChanged();
     }
