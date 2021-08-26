@@ -31,9 +31,11 @@ in this lab, we create a test function for the the user interface using of Espre
 ## Lab: 33 - Related Data:
 in this lab, we created a new model at the graphql to assign the task to the team. At the biggining we hit the server (database) and save three teams for one time (teamA,B,C). After that we added a spinner at the add task activity to assign the task at one of the three teams.
 
+## Lab: 34 - Publishing to the Play Store:
+in this lab we build the APK, which is the Android application package file format used by the Android operating system. this steps is neccessary to upload the application to the google play. As uploading the application to google play needs to have a developer account that  a one-time fee of $25, I have not published it on google play, but in the future I will create account and lunch this project.
 
 ## Lab: 36 - Cognito:
-in this lab we added an authontication system to our android application using of amplify auth. the user can create a user name and verify it using email. For this purpose signUp, Login, verification activities were created. Also, a new features added on the application such as showing the user name.
+in this lab we added an authentication system to our android application using of amplify auth. the user can create a user name and verify it using email. For this purpose signUp, Login, verification activities were created. Also, a new features added on the application such as showing the user name.
 
 ## Lab: 37 - S3
-In this lab we used another servise offer by amazon which S3 storage so that we can upload files and used it later (download )
+In this lab we used another service offer by amazon which S3 storage so that we can upload files and used it later (download )
