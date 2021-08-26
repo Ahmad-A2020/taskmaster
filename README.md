@@ -38,4 +38,4 @@ in this lab we build the APK, which is the Android application package file form
 in this lab we added an authentication system to our android application using of amplify auth. the user can create a user name and verify it using email. For this purpose signUp, Login, verification activities were created. Also, a new features added on the application such as showing the user name.
 
 ## Lab: 37 - S3
-In this lab we used another service offer by amazon which S3 storage so that we can upload files and used it later (download )
+In this lab we used another service offer by akmazon which S3 storage so that we can upload files and used it later (download )
