@@ -12,19 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
         android:layout_marginEnd="14dp"
-        android:text="Verification Code: "
+        android:text="@string/verification_code"
         app:layout_constraintEnd_toStartOf="@+id/code"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        tools:ignore="LabelFor"
+        android:autofillHints="textPersonName"
         android:id="@+id/code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="code"
+        android:text="@string/code"
         app:layout_constraintBottom_toBottomOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView12" />
@@ -35,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="67dp"
-        android:text="Verify"
+        android:text="@string/verify"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/code" />
 

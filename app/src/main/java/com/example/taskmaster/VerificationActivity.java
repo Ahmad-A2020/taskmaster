@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,13 +28,7 @@ public class VerificationActivity extends AppCompatActivity {
         username= intent.getExtras().getString("userName","");
         password= intent.getExtras().getString("password","");
 
-        verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                verfication(username,code.getText().toString());
-
-            }
-        });
+        verify.setOnClickListener(v -> verfication(username,code.getText().toString()));
 
 
     }
@@ -53,10 +46,7 @@ public class VerificationActivity extends AppCompatActivity {
                     startActivity(goToSignIn);
 
                 },
-                error ->{
-                    Log.e(TAG,"verify Failed:"+error);
-
-                }
+                error -> Log.e(TAG,"verify Failed:"+error)
         );
     }
 }
