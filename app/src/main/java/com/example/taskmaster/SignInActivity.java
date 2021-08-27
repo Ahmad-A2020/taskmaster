@@ -13,17 +13,25 @@ import android.widget.EditText;
 //import com.amplifyframework.api.aws.AWSApiPlugin;
 //import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.google.firebase.analytics.FirebaseAnalytics;
 //import com.amplifyframework.datastore.AWSDataStorePlugin;
 //import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 public class SignInActivity extends AppCompatActivity {
 
     private static final String TAG = "signInActivity";
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        // firebase analytics
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
 //        configureAmplify();
 
@@ -39,6 +47,12 @@ public class SignInActivity extends AppCompatActivity {
                 username,
                 password,
                 success ->{
+                    // Analytics ---Review---
+                    Bundle signInEvent= new Bundle();
+                    signInEvent.putString("userName",Amplify.Auth.getCurrentUser().getUsername());
+                    mFirebaseAnalytics.logEvent("signIn",signInEvent);
+
+                    // create Intent
                     Log.i(TAG,"login Sucess");
                     Intent goToMain = new Intent (SignInActivity.this, MainActivity.class);
                     startActivity(goToMain);

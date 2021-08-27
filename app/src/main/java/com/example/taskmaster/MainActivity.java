@@ -23,12 +23,16 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 //import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 
 //import java.util.ArrayList;
 //import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Button b1,b2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     @Override
@@ -54,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // analytics firebase
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
         configureAmplify();
 
         // amplify
@@ -95,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
         b1.setOnClickListener(v -> {
 
             Intent intent = new Intent (MainActivity.this,AddTask.class);
+
+            // REVIEW
+            Bundle params = new Bundle();
+            params.putString("Taskname", "add Task");
+            params.putString("full_text", "text");
+            mFirebaseAnalytics.logEvent("ad_click", params);
+
             startActivity(intent);
         });
 
@@ -189,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e("TAG", "Failed to initialize Amplify plugins => " + exception.toString());
         }
     }
+
+
 
 
 }
