@@ -17,7 +17,7 @@
 
  ## Lab: 28 - RecyclerView
 in this lab we created a recycle view for diplay a list of data at the all list page.
- - ![All Tasks](tasksList.PNG)
+ - ![All Tasks](tasksList.jpg)
 
 ## Lab: 29 - Room
  in this lab we user the room, which is an ORM (object relational mapper) for SQLite database in Android. to save data (task) at the database, and then invoke all the stored data (tasks) at the all tasks layout.
@@ -39,3 +39,14 @@ in this lab we added an authentication system to our android application using o
 
 ## Lab: 37 - S3
 In this lab we used another service offer by akmazon which S3 storage so that we can upload files and used it later (download )
+- ![screen shot](storage.jpg)
+
+## Lab: 39 - Review
+in this lab we have use the firebase to Add Analytics to your amplify project, that Create and send an Event whenever you launch intents that start new activities.
+    Following is an example of the code that may use to add event:
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+                            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);

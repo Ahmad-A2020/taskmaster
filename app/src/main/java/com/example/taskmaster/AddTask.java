@@ -28,6 +28,7 @@ import com.amplifyframework.core.Amplify;
 //import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import java.io.BufferedWriter;
 import java.io.File;
@@ -52,12 +53,17 @@ public class AddTask extends AppCompatActivity {
 //    public static final String TASK_HOLDER= "task_holder";
 
     private Handler handler;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this); // analytics review
+
 
         // create handler
 
@@ -144,7 +150,6 @@ public class AddTask extends AppCompatActivity {
 
             getTeamDetailFromAPIByName(teamContent);
 
-
             teamData = Team.builder().name(teamContent).build();
             Log.i("teamName",teamData.getName());
 
@@ -159,7 +164,10 @@ public class AddTask extends AppCompatActivity {
             );
              Toast.makeText(AddTask.this, "Task Added",Toast.LENGTH_SHORT).show();
 
-
+            // Add Analytics --Review- -
+            Bundle addNewTaskEvent = new Bundle();
+            addNewTaskEvent.putString("Tasktitle",titleContent );
+            mFirebaseAnalytics.logEvent("add_task",addNewTaskEvent);
 
         });
     }
@@ -227,6 +235,12 @@ public class AddTask extends AppCompatActivity {
 
     private void getFileFromDevice(){
 
+        // Analytics --- Review--
+        Bundle uploadFile= new Bundle();
+        uploadFile.putString("fileType","photo");
+        mFirebaseAnalytics.logEvent("upload_File",uploadFile);
+
+        // Intent
        Intent selectFile= new Intent(Intent.ACTION_GET_CONTENT);
        selectFile.setType("*/*");
        selectFile= Intent.createChooser(selectFile,"select File");

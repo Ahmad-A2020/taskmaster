@@ -20,6 +20,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 //import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Todo;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import java.io.File;
 //import java.net.URL;
@@ -33,6 +34,8 @@ public class AllTasks extends AppCompatActivity {
 //    private  AppDatabase db;
 //    private TaskDao taskDao;
     private Handler handler;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     @Override
@@ -40,6 +43,7 @@ public class AllTasks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this); // analytics review
 
 
         getDataFromApi();
@@ -84,6 +88,11 @@ public class AllTasks extends AppCompatActivity {
                 detailsIntent.putExtra("taskstate",taskList.get(position).getState());
                 detailsIntent.putExtra("linkFile",taskList.get(position).getFileKey());
                 startActivity(detailsIntent);
+
+                // Add analytics -- Review--
+                Bundle detail= new Bundle();
+                detail.putString("detailOf",taskList.get(position).getTitle() );
+                mFirebaseAnalytics.logEvent("click_detail",detail);
 
             }
 
