@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Task {
+public class TaskM {
 
 
     public void setId(long id) {
@@ -24,7 +24,7 @@ public class Task {
     @ColumnInfo(name="task_state")
     private String state;
 
-    public Task(String title, String body, String state) {
+    public TaskM(String title, String body, String state) {
         this.title = title;
         this.body = body;
         this.state = state;
