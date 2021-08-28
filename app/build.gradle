@@ -109,6 +109,15 @@ dependencies {
     implementation 'com.amplifyframework:aws-storage-s3:1.24.0'
     implementation 'com.amplifyframework:aws-auth-cognito:1.24.0'
 
+// notification
+
+    // Overrides an auth dependency to ensure correct behavior
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.25.+'
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.26.+@aar') { transitive = true }
+
     // firebase Review
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
