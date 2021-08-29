@@ -1,11 +1,17 @@
 package com.example.taskmaster;
 
 //import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
@@ -22,12 +28,17 @@ import android.widget.Toast;
 
 //import com.amplifyframework.AmplifyException;
 //import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 //import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import java.io.BufferedWriter;
@@ -61,6 +72,11 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+//        configureAmplify();
+
+
+
+
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this); // analytics review
 
@@ -125,6 +141,54 @@ public class AddTask extends AppCompatActivity {
 
         Button uploadButt = findViewById(R.id.uploade);
 
+        // Intent Filters
+
+//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//
+//                            Log.i(TAG, "onActivityResult: shared data");
+//
+//                            Intent intent = getIntent();
+//                            Uri imageUri = intent.getData();
+//
+//                            File file = new File(imageUri.getPath());
+//                            Amplify.Storage.uploadFile(
+//
+//                                key= new Date().toString()+".jpg",
+//                                    file,
+//                                sucess -> Log.i(TAG,"the file saved to s3 successfully"),
+//                                error -> Log.e(TAG," error in store data at S3 "+ error)
+//                           );
+//
+//                        }
+//                    }
+//         });
+
+        Intent intent = getIntent();
+        Uri data = intent.getData();
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+            if (intent.getType().startsWith("image/")) {
+                Log.i("content from outside", "Image Received");
+                File file = new File(data.getPath());
+
+                Amplify.Storage.uploadFile(
+
+                        key = new Date().toString() + ".jpg",
+                        file,
+                        success -> Log.i(TAG, "the file saved to s3 successfully"),
+                        error -> Log.e(TAG, " error in store data at S3 " + error)
+                );
+
+            } else if (intent.getType().equals("text/plain")) {
+                // Handle intents with text ...
+                Log.d("content from outside", "Text");
+            }
+        }
+
         // add listener for the upload file button
         uploadButt.setOnClickListener(v -> getFileFromDevice());
 
@@ -143,6 +207,9 @@ public class AddTask extends AppCompatActivity {
 //
 //                label.setText("Submited!");
 //                Log.i(log_tag,"summited Successfully");
+
+            // luncheer
+//            someActivityResultLauncher.launch(new Intent(this,AddTask.class));
 
 
             // --find the team from the dynamoDB--
@@ -248,6 +315,20 @@ public class AddTask extends AppCompatActivity {
        startActivityForResult(selectFile,CODE_REQUEST);
 
    }
+    private void configureAmplify() {
+        // configure Amplify plugins
+        try {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("TAG", "Successfully initialized Amplify plugins");
+        } catch (AmplifyException exception) {
+            Log.e("TAG", "Failed to initialize Amplify plugins => " + exception.toString());
+        }
+    }
 
 
 }
