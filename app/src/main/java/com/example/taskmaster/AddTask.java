@@ -4,8 +4,10 @@ package com.example.taskmaster;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
@@ -28,22 +30,37 @@ import com.amplifyframework.core.Amplify;
 //import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 //import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 //import java.util.List;
+import android.Manifest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+
 
 public class AddTask extends AppCompatActivity {
 
     private static final int CODE_REQUEST =55 ;
     private static final String TAG = "upload";
+    private static final String TAG2 = "location" ;
 
-//    private TaskDao taskDao;
+    //    private TaskDao taskDao;
 //    private AppDatabase db;
 //    private List <Team> teamData= new ArrayList<>() ;
     private Team teamData ;
@@ -54,15 +71,27 @@ public class AddTask extends AppCompatActivity {
 
     private Handler handler;
     private FirebaseAnalytics mFirebaseAnalytics;
+//    public static String TAG = "hogwarts";
+
+    FusedLocationProviderClient locationProviderClient;
+
+    Location currentLocation;
+    String addressString;
 
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this); // analytics review
+
+        // location
+
+        askForPermissionToUseLocation();
+        configureLocationServices();
+        askForLocation();
 
 
         // create handler
@@ -155,7 +184,7 @@ public class AddTask extends AppCompatActivity {
 
 
             Todo item= Todo.builder()
-                    .title(titleContent).body(bodyContent).state(stateContent).team(teamData).fileKey(key).build();
+                    .title(titleContent).body(bodyContent).state(stateContent).team(teamData).fileKey(key).address(addressString).build();
             // -- save in the dynamoDB
 
             Amplify.API.mutate(ModelMutation.create(item)
@@ -248,6 +277,68 @@ public class AddTask extends AppCompatActivity {
        startActivityForResult(selectFile,CODE_REQUEST);
 
    }
+
+   // location lab
+   @RequiresApi(api = Build.VERSION_CODES.M)
+   public void askForPermissionToUseLocation() {
+       requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+    }
+
+
+   public void askForLocation() {
+       // TODO: geocoder
+       LocationRequest locationRequest;
+       LocationCallback locationCallback;
+
+       locationRequest = LocationRequest.create();
+       locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+       locationRequest.setInterval(10000);
+
+
+       locationCallback = new LocationCallback() {
+           @Override
+           public void onLocationResult(LocationResult locationResult) {
+               if (locationResult == null) {
+                   Log.i(TAG2, "result is null");
+
+                   return;
+               }
+               currentLocation = locationResult.getLastLocation();
+               Log.i(TAG2, currentLocation.toString());
+
+               // TODO: GeoCoding the coordinates
+               Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
+               try {
+                   List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
+                   Log.i(TAG2, addresses.get(0).toString());
+                   addressString = addresses.get(0).getAddressLine(0);
+                   Log.i(TAG2, addressString);
+
+
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           }
+
+
+       };
+       if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           // TODO: Consider calling
+           //    ActivityCompat#requestPermissions
+           Toast t = new Toast(this);
+           t.setText("You need to accept the permissions");
+           t.setDuration(Toast.LENGTH_LONG);
+           t.show();
+           return;
+       }
+       locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+   }
+
+   public void configureLocationServices(){
+       locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+       // fuses the multiple location requests into one big one, gives you the most accurate that comes back
+   }
+
 
 
 }

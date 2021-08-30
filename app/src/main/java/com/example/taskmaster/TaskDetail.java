@@ -41,6 +41,10 @@ public class TaskDetail extends AppCompatActivity {
         stateholder.setText(TextState);
         image.setImageResource(R.drawable.download);
 
+        String addressText= getIntent().getStringExtra("address");
+        TextView addView= findViewById(R.id.add);
+        addView.setText(addressText);
+
 
 
 //        findViewById(R.id.imageView4).setImage

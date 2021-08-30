@@ -18,6 +18,7 @@ query SyncTodos(
       state
       taskId
       fileKey
+      address
       _version
       _deleted
       _lastChangedAt
@@ -36,6 +37,7 @@ query GetTodo($id: ID!) {
     state
     taskId
     fileKey
+    address
     team {
       id
       name
@@ -65,6 +67,7 @@ query ListTodos(
       state
       taskId
       fileKey
+      address
       _version
       _deleted
       _lastChangedAt

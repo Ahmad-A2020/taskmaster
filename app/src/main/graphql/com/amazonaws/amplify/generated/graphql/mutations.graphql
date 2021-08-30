@@ -10,6 +10,7 @@ mutation CreateTodo(
     state
     taskId
     fileKey
+    address
     team {
       id
       name
@@ -37,6 +38,7 @@ mutation UpdateTodo(
     state
     taskId
     fileKey
+    address
     team {
       id
       name
@@ -64,6 +66,7 @@ mutation DeleteTodo(
     state
     taskId
     fileKey
+    address
     team {
       id
       name

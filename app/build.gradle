@@ -132,6 +132,11 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-analytics'
 
+    // google play --location---
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation  'androidx.activity:activity:1.2.0-beta01'
+
+
 
 
 }

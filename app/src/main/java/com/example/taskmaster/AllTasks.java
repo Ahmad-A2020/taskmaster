@@ -87,6 +87,7 @@ public class AllTasks extends AppCompatActivity {
                 detailsIntent.putExtra("taskDescription",taskList.get(position).getBody());
                 detailsIntent.putExtra("taskstate",taskList.get(position).getState());
                 detailsIntent.putExtra("linkFile",taskList.get(position).getFileKey());
+                detailsIntent.putExtra("address",taskList.get(position).getAddress());
                 startActivity(detailsIntent);
 
                 // Add analytics -- Review--
