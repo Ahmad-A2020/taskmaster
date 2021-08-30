@@ -7,6 +7,7 @@ subscription OnCreateTodo {
     state
     taskId
     fileKey
+    address
     team {
       id
       name
@@ -31,6 +32,7 @@ subscription OnUpdateTodo {
     state
     taskId
     fileKey
+    address
     team {
       id
       name
@@ -55,6 +57,7 @@ subscription OnDeleteTodo {
     state
     taskId
     fileKey
+    address
     team {
       id
       name
