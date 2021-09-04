@@ -212,6 +212,11 @@ public class AddTask extends AppCompatActivity {
                         handler.sendEmptyMessage(1);
                     }
                         handler.sendEmptyMessage(1);
+                    // analytics
+                    // Add Analytics --Review- -
+                    Bundle fetchTeam = new Bundle();
+                    fetchTeam.putString("teamName",teamNameData );
+                    mFirebaseAnalytics.logEvent("fetch_Team_Name",fetchTeam);
                 },
                 error -> Log.e("teamDetail", "Query failure", error)
         );
@@ -275,6 +280,12 @@ public class AddTask extends AppCompatActivity {
        selectFile= Intent.createChooser(selectFile,"select File");
 
        startActivityForResult(selectFile,CODE_REQUEST);
+
+       // activity
+        Bundle uploadFileActivity = new Bundle();
+        uploadFileActivity.putString("fileType","photo" );
+        mFirebaseAnalytics.logEvent("upload_Photo_from_Devices",uploadFileActivity);
+
 
    }
 
