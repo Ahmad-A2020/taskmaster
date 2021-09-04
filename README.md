@@ -57,6 +57,8 @@ in this lab we have use the firebase to Add Analytics to your amplify project, t
 ## Lab: 42 - Location 
 in this lab we added a new feature for our application on which the location of the plcae that the task added will saves and it will shown in the task detail page         
 
+## Lab: 41 - Intent Filters
+Today, we created app that  allow users to “share” a photo from another app and open TaskMaster, ready to upload that image as part of a new task.
 
 ## Lab 43: Analytics with Pinpoint
 in this lab, we added more analytics to the task_master application that allow tracking user sessions within your application.               
