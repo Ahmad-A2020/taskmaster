@@ -50,6 +50,13 @@ in this lab we have use the firebase to Add Analytics to your amplify project, t
                             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
                             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-- ![Firebase console](Event.PNG)                            
+- ![Firebase console](Event.PNG) 
+
+
+                           
 ## Lab: 42 - Location 
-in this lab we added a new feature for our application on which the location of the plcae that the task added will saves and it will shown in the task detail page                             
+in this lab we added a new feature for our application on which the location of the plcae that the task added will saves and it will shown in the task detail page         
+
+
+## Lab 43: Analytics with Pinpoint
+in this lab, we added more analytics to the task_master application that allow tracking user sessions within your application.               
